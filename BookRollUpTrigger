@@ -1,0 +1,15 @@
+trigger BookRollUpTrigger on Book__c (after insert,after update,after delete,after undelete) {
+      
+      if(Trigger.isafter){
+        if(Trigger.isinsert || Trigger.isundelete){
+            AuthorBookrollupHelper.processRecords(Trigger.new);
+        }
+        if(Trigger.isUpdate){
+           AuthorBookrollupHelper.processRecords(Trigger.new);
+           AuthorBookrollupHelper.processRecords(Trigger.old);
+        }
+        if(Trigger.isdelete){
+           AuthorBookrollupHelper.processRecords(Trigger.old);
+        }
+    }
+}
